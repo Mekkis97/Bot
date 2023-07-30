@@ -98,14 +98,14 @@ bot.action("buy_plan", async ctx=>{
         description: db_setup.pack_desc,
         payload: 16,
         provider_token: stripe_key,
-        currency: "USD",
+        currency: "EUR",
         prices: [
             {
                 label: "Normal",
                 amount: db_setup.pack_price * 100
             }
         ],
-        photo_url: 'https://img.freepik.com/free-vector/e-wallet-concept-illustration_114360-7561.jpg?w=740&t=st=1689332741~exp=1689333341~hmac=ce5e0e3fa980a4725083aadf1e8b01029fee44424a88f4bb8a595f383b8cd5ca'
+        photo_url: 'https://i.imgur.com/jvaP9cT.png'
     })
 })
 
@@ -135,7 +135,7 @@ bot.on("successful_payment", async ctx=>{
 
         const update_user = await user_model.findOneAndUpdate({user_id: db_user.user_id}, user_data)
         if(update_user){
-            ctx.replyWithPhoto({url: "https://egsgroup.files.wordpress.com/2017/02/payment-successful.png"})
+            ctx.replyWithPhoto({url: "https://i.imgur.com/nOkmhb2.png"})
             .then(async ctx2=>{
                 await ctx.deleteMessage(ctx2.message_id - 2)
             })
