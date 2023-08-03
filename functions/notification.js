@@ -8,7 +8,7 @@ module.exports = async (ctx)=>{
     try {
 
         let notification_message = await setup_model.find()
-            notification_message = notification_message[0].expire_message || "Your plan will expire soon. Kindly renew it otherwise bot will kick you from group"
+            notification_message = notification_message[0].expire_message || "Your plan will expire soon. \n \n You will be removed from the group in 3 days. To stay in the group, we kindly ask you to renew your plan. \n \n Type /start to renew plan"
 
         const users = await user_model.find()
 
