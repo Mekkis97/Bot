@@ -9,10 +9,10 @@ module.exports = async (ctx) =>{
                 command: "plan_status",
                 description: "Plan Status"
             },
-            {
-                command: "buy_membership",
-                description: "For Buy/Renew membership"
-            },
+            // {
+            //     command: "buy_membership",
+            //     description: "For Buy/Renew membership"
+            // },
             {
                 command: "help",
                 description: "For help"

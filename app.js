@@ -62,7 +62,7 @@ bot.command("plan_status", async ctx=>{
                 }
             })
         }else{
-            await ctx.reply(`You don't have any plan`)
+            await ctx.reply(`You're not subscribed to the neonDragon betting service. \n \n Type /start to buy a plan`)
         }
     } catch (error) {
         console.log(error)

@@ -9,7 +9,7 @@ module.exports = async (ctx) =>{
         await ctx.reply(`👏 Hello , ${ctx.from.first_name} \n${db_setup.welcome_message || ""} `,{
             reply_markup: {
                 inline_keyboard: [
-                    [{text: "Buy membership", callback_data: "buy_plan"}]
+                    [{text: "Buy a subsciption", callback_data: "buy_plan"}]
                 ]
             }
         })
