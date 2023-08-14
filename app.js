@@ -1,23 +1,24 @@
 const {Telegraf, session, Scenes} = require("telegraf")
 const { bot_token, db_url, stripe_key, password } = require("./config/config")
 const { default: mongoose } = require("mongoose")
-const start = require("./functions/start")
+const start = require("./lib/start_menu")
 const moment = require("moment")
-const setup_model = require("./model/setup_model")
-const user_model = require("./model/user_model")
-const setup_scene = require("./scene/setup")
-const test_data = require("./functions/test_data")
-const gen_expire_date = require("./functions/gen_expire_date")
-const payment_model = require("./model/payment_model")
-const insertUser = require("./functions/insertUser")
-const autoKickUser = require("./functions/autoKickUser")
-const chat_model = require("./model/chat_model")
-const unbanUser = require("./functions/unbanUser")
-const gen_notification = require("./functions/gen_notification")
-const notification = require("./functions/notification")
-const export_payment = require("./functions/export_payment")
-const export_user = require("./functions/export_user")
-const notification_scene = require("./scene/notification_scene")
+const setup_model = require("./model/setupModel")
+const user_model = require("./model/userModel")
+const setup_scene = require("./scene/setupScene")
+const test_data = require("./lib/testData")
+const gen_expire_date = require("./lib/expire_date")
+const payment_model = require("./model/paymentModel")
+const insertUser = require("./lib/createUser")
+const autoKickUser = require("./lib/kickUser")
+const chat_model = require("./model/chatModel")
+const unbanUser = require("./lib/unban")
+const gen_notification = require("./lib/generate_notification")
+const notification = require("./lib/notification")
+const export_payment = require("./lib/export_payment_data")
+const export_user = require("./lib/export_user_data")
+const notification_scene = require("./scene/notifyScene")
+const createChatInviteURL = require("./lib/createChatInviteURL")
 
 
 const bot = new Telegraf(bot_token)
@@ -57,12 +58,12 @@ bot.command("plan_status", async ctx=>{
             await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')}`, {
                 reply_markup: {
                     inline_keyboard: [
-                        [{text: "Join telegram group", url: `https://t.me/${chat_username}?start=true`}]
+                        [{text: "Join telegram channel", url: `${user.join_url}`}]
                     ]
                 }
             })
         }else{
-            await ctx.reply(`You're not subscribed to the neonDragon betting service. \n \n Type /start to buy a plan`)
+            await ctx.reply(`You're not subscribed to the neonDragon service. \n \n Type /start to buy a plan`)
         }
     } catch (error) {
         console.log(error)
@@ -90,6 +91,26 @@ bot.command("about", async ctx=>{
 })
 
 bot.action("buy_plan", async ctx=>{
+    await ctx.deleteMessage()
+    let db_setup = await setup_model.find()
+        db_setup = db_setup[0]    
+    ctx.sendInvoice({
+        title: db_setup.pack_title,
+        description: db_setup.pack_desc,
+        payload: 16,
+        provider_token: stripe_key,
+        currency: "USD",
+        prices: [
+            {
+                label: "Normal",
+                amount: db_setup.pack_price * 100
+            }
+        ],
+        photo_url: 'https://i.imgur.com/jvaP9cT.png'
+    })
+})
+
+bot.command("buy_membership", async ctx=>{
     await ctx.deleteMessage()
     let db_setup = await setup_model.find()
         db_setup = db_setup[0]    
@@ -126,14 +147,21 @@ bot.on("successful_payment", async ctx=>{
         let db_user = await user_model.find({user_id: ctx.from.id})
             db_user = db_user[0]
 
+        const url = await createChatInviteURL(ctx)
+
+        const expire = gen_expire_date(db_user.expire)
+        console.log(expire)
+
         const user_data = {
             purchase : moment(),
-            expire : gen_expire_date(db_user.expire || 0),
+            expire : expire,
             status : true,
-            notification : gen_notification()
+            notification : gen_notification(),
+            join_url: url
         }
 
-        const update_user = await user_model.findOneAndUpdate({user_id: db_user.user_id}, user_data)
+        const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
+        
         if(update_user){
             ctx.replyWithPhoto({url: "https://i.imgur.com/nOkmhb2.png"})
             .then(async ctx2=>{
@@ -151,6 +179,7 @@ bot.on("successful_payment", async ctx=>{
             })
             await payment_data.save()
             await unbanUser(ctx)
+
         }
 
     } catch (error) {
@@ -222,9 +251,12 @@ setInterval(async ()=>{
     await notification()
 }, 1000 * 60 * 2)
 
+
 bot.on('text', async ctx=>{
     try {
+
         const chat = ctx.update.message.chat
+
         if(chat.type == "group" || chat.type == 'supergroup'){
             const db_chat = await chat_model.find()
             const chat_data = {
@@ -238,6 +270,30 @@ bot.on('text', async ctx=>{
                 const new_chat = new chat_model(chat_data)
                 await new_chat.save()
             }
+        }
+
+        if(ctx.update.message.forward_from_chat){
+            const c = ctx.update.message.forward_from_chat
+            const db_chat = await chat_model.find()
+
+            const chatData = {
+                group_id: c.id,
+                group_username: c.username,
+                group_name: c.title
+            }
+            console.log(db_chat[0].id)
+            const u = await chat_model.findByIdAndUpdate(db_chat[0].id, chatData)
+            console.log(u)
+            await ctx.reply('Chat Updated')
+        }else{
+            const c = ctx.update.message.forward_from_chat
+            const chatData = new chat_model({
+                group_id: c.id,
+                group_username: c.username,
+                group_name: c.title
+            })
+            await chatData.save()
+            await ctx.reply("Chat added")
         }
     } catch (error) {
         console.log(error)

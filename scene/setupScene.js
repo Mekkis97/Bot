@@ -1,5 +1,5 @@
 const {Scenes} = require("telegraf")
-const setup_model = require("../model/setup_model")
+const setup_model = require("../model/setupModel")
 
 const setup = new Scenes.WizardScene('setup',
     async ctx=>{

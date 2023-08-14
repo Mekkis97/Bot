@@ -1,5 +1,5 @@
 const {Scenes} = require('telegraf')
-const user_model = require('../model/user_model')
+const user_model = require('../model/userModel')
 
 const notification_scene = new Scenes.WizardScene('notification',
     async ctx=>{
