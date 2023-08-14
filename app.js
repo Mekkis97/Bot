@@ -63,7 +63,7 @@ bot.command("plan_status", async ctx=>{
                 }
             })
         }else{
-            await ctx.reply(`You don't have any plan`)
+            await ctx.reply(`You're not subscribed. \n \n Type /start to buy a plan`)
         }
     } catch (error) {
         console.log(error)
@@ -119,7 +119,7 @@ bot.command("buy_membership", async ctx=>{
         description: db_setup.pack_desc,
         payload: 16,
         provider_token: stripe_key,
-        currency: "USD",
+        currency: "EUR",
         prices: [
             {
                 label: "Normal",
