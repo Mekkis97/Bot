@@ -177,7 +177,7 @@ bot.on("successful_payment", async ctx=>{
                             [{ text: "Join telegram channel", url: `${user.join_url}` }]
                         ]
                     }
-                }
+                }/* */
             ).then(async ctx2=>{
                 await ctx.deleteMessage(ctx2.message_id - 2)
             })
