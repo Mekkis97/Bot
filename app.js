@@ -123,7 +123,8 @@ bot.command("buy_membership", async ctx=>{
         prices: [
             {
                 label: "Normal",
-                amount: db_setup.pack_price * 100
+                amount: db_setup.pack_price * 100,
+                product_id: "prod_Op6fEdv7BRxkzB"
             }
         ],
         photo_url: 'https://i.imgur.com/jvaP9cT.png'
