@@ -99,7 +99,7 @@ bot.action("buy_plan", async ctx=>{
         description: db_setup.pack_desc,
         payload: 16,
         provider_token: stripe_key,
-        currency: "USD",
+        currency: "EUR",
         prices: [
             {
                 label: "Normal",
