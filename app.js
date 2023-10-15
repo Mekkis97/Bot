@@ -119,7 +119,6 @@ bot.command("buy_membership", async ctx=>{
         description: db_setup.pack_desc,
         payload: 16,
         provider_token: stripe_key,
-        product_id: "prod_Op6fEdv7BRxkzB", 
         currency: "EUR",
         prices: [
             {
