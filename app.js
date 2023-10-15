@@ -132,7 +132,7 @@ bot.action("buy_plan", async ctx=>{
     })
 })
 
-bot.command("buy_plan", async ctx=>{
+bot.command("buy_membership", async ctx=>{
     await ctx.deleteMessage()
     let db_setup = await setup_model.find()
         db_setup = db_setup[0]    
@@ -184,27 +184,12 @@ bot.on("successful_payment", async ctx=>{
 
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
         
-        if(update_user){            
-            Promise.all([
-                ctx.reply(`Your payment was successful! \n \n My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')} 
-                \n\n This invite link only works once and cannot be recreated. If you leave the group and still have an active subscription, 
-                you will have to contact the admin team to get a new invite link.`, {
-                    reply_markup: {
-                        inline_keyboard: [{ text: "Join telegram channel", url: user.join_url }]
-                    }
-                }),
-                ctx.replyWithPhoto({ url: "https://i.imgur.com/nOkmhb2.png" })
-            ])
-            .then(async ([textResponse, photoResponse]) => {
-                // You can access textResponse and photoResponse here if needed
-                await ctx.deleteMessage(textResponse.message_id)
-                await ctx.deleteMessage(photoResponse.message_id)
+        if(update_user){
+            ctx.replyWithPhoto({url: "https://i.imgur.com/nOkmhb2.png"})
+            .then(async ctx2=>{
+                await ctx.deleteMessage(ctx2.message_id - 2)
             })
-            .catch(e => console.log(e));
-
-
-
-
+            .catch(e=>console.log(e))
 
             const payment_data = new payment_model({
                 user_id: ctx.from.id, 
