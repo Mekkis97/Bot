@@ -48,29 +48,49 @@ bot.action("home", async ctx=>{
 const stage = new Scenes.Stage([setup_scene, notification_scene])
 bot.use(stage.middleware())
 
-bot.command("plan_status", async ctx=>{
+
+
+bot.command("plan_status", async ctx => {
     try {
-        let chat_username = await chat_model.find()
-            chat_username = chat_username[0].group_username
-        let user = await user_model.find({user_id: ctx.from.id})
-            user = user[0]
-        if(user.expire > moment()){
-            await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')}`
-            /*, {
-                reply_markup: {
-                    inline_keyboard: [
-                        [{text: "Join telegram channel", url: `${user.join_url}`}]
-                    ]
-                }
-            } */
-            )
-        }else{
-            await ctx.reply(`You're not subscribed. \n \n Type /start to buy a plan`)
+        let chat_username = await chat_model.find();
+        chat_username = chat_username[0].group_username;
+        let user = await user_model.find({ user_id: ctx.from.id });
+        user = user[0];
+        if (user.expire > moment()) {
+            await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')}`);
+        } else {
+            await ctx.reply(`You're not subscribed. \n \n Type /start to buy a plan`);
         }
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-})
+});
+
+
+
+// bot.command("plan_status", async ctx=>{
+//     try {
+//         let chat_username = await chat_model.find()
+//             chat_username = chat_username[0].group_username
+//         let user = await user_model.find({user_id: ctx.from.id})
+//             user = user[0]
+//         if(user.expire > moment()){
+//             await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')}`
+//             , {
+//                 reply_markup: {
+//                     inline_keyboard: [
+//                         [{text: "Join telegram channel", url: `${user.join_url}`}]
+//                     ]
+//                 }
+//             } 
+//             )
+//         }else{
+//             await ctx.reply(`You're not subscribed. \n \n Type /start to buy a plan`)
+//         }
+//     } catch (error) {
+//         console.log(error)
+//     }
+// })
 
 bot.command("help", async ctx=>{
     try {
@@ -112,7 +132,7 @@ bot.action("buy_plan", async ctx=>{
     })
 })
 
-bot.command("buy_membership", async ctx=>{
+bot.command("buy_plan", async ctx=>{
     await ctx.deleteMessage()
     let db_setup = await setup_model.find()
         db_setup = db_setup[0]    
