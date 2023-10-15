@@ -164,19 +164,21 @@ bot.on("successful_payment", async ctx=>{
 
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
         
+        
         if(update_user){
-            ctx.replyWithPhoto({url: "https://i.imgur.com/nOkmhb2.png"},
-            ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')}  
-            \n\n This invite link only works once and can not be recreated. 
-            If you leave the group and still have an active subscription, you will have to contact the admin team to get a new invite link.`),
-            {
-                reply_markup: {
-                    inline_keyboard: [
-                        [{ text: "Join telegram channel", url: `${user.join_url}` }]
-                    ]
+            ctx.reply(`Your payment was succesful! \n \n
+            My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')}  
+            \n\n 
+            This invite link only works once and can not be recreated. 
+            If you leave the group and still have an active subscription, you will have to contact the admin team to get a new invite link.`,
+                {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [{ text: "Join telegram channel", url: `${user.join_url}` }]
+                        ]
+                    }
                 }
-            })
-            .then(async ctx2=>{
+            ).then(async ctx2=>{
                 await ctx.deleteMessage(ctx2.message_id - 2)
             })
             .catch(e=>console.log(e))
