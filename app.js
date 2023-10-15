@@ -257,7 +257,7 @@ bot.on('text', async ctx=>{
 
         const chat = ctx.update.message.chat
 
-        if(chat.type == "group" || chat.type == 'supergroup'){
+        if(chat.type == "group" || chat.type == 'supergroup' || chat.type == 'channel'){
             const db_chat = await chat_model.find()
             const chat_data = {
                 group_id : chat.id,
