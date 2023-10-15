@@ -4,7 +4,7 @@ const user_model = require('../model/userModel')
 const notification_scene = new Scenes.WizardScene('notification',
     async ctx=>{
         try {
-            await ctx.reply("Type your notification message ( you can send text and photos)")
+            await ctx.reply("Type your notification message (You can send text and photos)")
             return ctx.wizard.next()
         } catch (error) {
             console.log(error)

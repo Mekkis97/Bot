@@ -5,7 +5,7 @@ const setup = new Scenes.WizardScene('setup',
     async ctx=>{
         try {
             ctx.session.setup = {}
-            await ctx.reply("Type your pack title")
+            await ctx.reply("Type the Pack title of the service youre trying to sell")
             return ctx.wizard.next()
         } catch (error) {
             console.log(error)
@@ -18,7 +18,7 @@ const setup = new Scenes.WizardScene('setup',
             const input = ctx.update.message.text
             if(input){
                 ctx.session.setup.title = input
-                await ctx.reply("Type your pack description")
+                await ctx.reply("Type the Pack description of the service youre trying to sell")
                 return ctx.wizard.next()
             }else{
                 await ctx.reply("Invalid input!")
@@ -35,7 +35,7 @@ const setup = new Scenes.WizardScene('setup',
             const input = ctx.update.message.text
             if(input){
                 ctx.session.setup.desc = input
-                await ctx.reply("Type your pack price (only number)")
+                await ctx.reply("Price of your service (Only type a number)")
                 return ctx.wizard.next()
             }else{
                 await ctx.reply("Invalid input!")
@@ -52,7 +52,7 @@ const setup = new Scenes.WizardScene('setup',
             const input = ctx.update.message.text
             if(input){
                 ctx.session.setup.price = input
-                await ctx.reply("Type welcome message")
+                await ctx.reply("Type the /start command message")
                 return ctx.wizard.next()
             }else{
                 await ctx.reply("Invalid input!")
@@ -69,7 +69,7 @@ const setup = new Scenes.WizardScene('setup',
             const input = ctx.update.message.text
             if(input){
                 ctx.session.setup.welcome_message = input
-                await ctx.reply("Type expire notification message")
+                await ctx.reply("Type the expiration notification message (Shows up 3 days before subscription cancels)")
                 return ctx.wizard.next()
             }else{
                 await ctx.reply("Invalid input!")
@@ -86,7 +86,7 @@ const setup = new Scenes.WizardScene('setup',
             const input = ctx.update.message.text
             if(input){
                 ctx.session.setup.expire_message = input
-                await ctx.reply("Type help command message")
+                await ctx.reply("Type the /help command message")
                 return ctx.wizard.next()
             }else{
                 await ctx.reply("Invalid input!")
@@ -103,7 +103,7 @@ const setup = new Scenes.WizardScene('setup',
             const input = ctx.update.message.text
             if(input){
                 ctx.session.setup.help_message = input
-                await ctx.reply("Type about command message")
+                await ctx.reply("Type the /about command message")
                 return ctx.wizard.next()
             }else{
                 await ctx.reply("Invalid input!")
