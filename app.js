@@ -163,7 +163,16 @@ bot.on("successful_payment", async ctx=>{
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
         
         if(update_user){
-            ctx.replyWithPhoto({url: "https://i.imgur.com/nOkmhb2.png"})
+            ctx.replyWithPhoto({url: "https://i.imgur.com/nOkmhb2.png"},
+            ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')}`, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [{text: "Join telegram channel", url: `${user.join_url}`}]
+                    ]
+                }
+            })
+            
+            )
             .then(async ctx2=>{
                 await ctx.deleteMessage(ctx2.message_id - 2)
             })
