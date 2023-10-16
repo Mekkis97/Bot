@@ -162,23 +162,24 @@ bot.on("successful_payment", async ctx=>{
 
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
         
-        if(update_user == true){
-            await ctx.reply(`Succesful Payment! \n \n 
-                                My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')} \n\n 
-                                This link only works once. If you leave the channel, you will have to contact our support.`, {
-                reply_markup: {
-                    inline_keyboard: [
-                        [{text: "Join telegram channel", url: `${user.join_url}`}]
-                    ]
-                }
-            })
-            
-            
-            
-        // .then(async ctx2=>{
-        //         await ctx.deleteMessage(ctx2.message_id - 2)
+        // if(update_user){
+        //     await ctx.reply(`Succesful Payment! \n \n 
+        //                         My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')} \n\n 
+        //                         This link only works once. If you leave the channel, you will have to contact our support.`, {
+        //         reply_markup: {
+        //             inline_keyboard: [
+        //                 [{text: "Join telegram channel", url: `${user.join_url}`}]
+        //             ]
+        //         }
         //     })
-        //     .catch(e=>console.log(e))
+            
+            
+        if(update_user){
+            ctx.replyWithPhoto({url: "https://i.imgur.com/76NE6MB.png"})
+            .then(async ctx2=>{
+                await ctx.deleteMessage(ctx2.message_id - 2)
+            })
+            .catch(e=>console.log(e))
 
             const payment_data = new payment_model({
                 user_id: ctx.from.id, 
