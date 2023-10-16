@@ -63,7 +63,7 @@ bot.command("plan_status", async ctx=>{
                 }
             })
         }else{
-            await ctx.reply(`You're not subscribed to the neonDragon service. \n \n Type /start to buy a plan`)
+            await ctx.reply(`You're not subscribed to the Neondragon. \n \n Type /start to buy a plan`)
         }
     } catch (error) {
         console.log(error)
@@ -175,10 +175,10 @@ bot.on("successful_payment", async ctx=>{
             
             
             
-        .then(async ctx2=>{
-                await ctx.deleteMessage(ctx2.message_id - 2)
-            })
-            .catch(e=>console.log(e))
+        // .then(async ctx2=>{
+        //         await ctx.deleteMessage(ctx2.message_id - 2)
+        //     })
+        //     .catch(e=>console.log(e))
 
             const payment_data = new payment_model({
                 user_id: ctx.from.id, 
