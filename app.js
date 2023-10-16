@@ -162,10 +162,11 @@ bot.on("successful_payment", async ctx=>{
 
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
         
-        if(update_user){
-  
+        // if(update_user){
+  /**/
             await ctx.reply(`Succesful Payment! \n \n 
-                                My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')}`, {
+                                My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')} \n\n 
+                                This link only works once. If you leave the channel, you will have to contact our support.`, {
                 reply_markup: {
                     inline_keyboard: [
                         [{text: "Join telegram channel", url: `${user.join_url}`}]
@@ -175,7 +176,7 @@ bot.on("successful_payment", async ctx=>{
             
             
             
-            .then(async ctx2=>{
+        .then(async ctx2=>{
                 await ctx.deleteMessage(ctx2.message_id - 2)
             })
             .catch(e=>console.log(e))
@@ -191,7 +192,7 @@ bot.on("successful_payment", async ctx=>{
             await payment_data.save()
             await unbanUser(ctx)
 
-        }
+        
 
     } catch (error) {
         console.log(error)
