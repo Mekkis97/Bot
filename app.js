@@ -119,7 +119,7 @@ bot.command("buy_plan", async ctx=>{
         description: db_setup.pack_desc,
         payload: 16,
         provider_token: stripe_key,
-        currency: "EUR",
+        currency: "SEK",
         prices: [
             {
                 label: "Normal",
@@ -162,9 +162,9 @@ bot.on("successful_payment", async ctx=>{
 
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
         
-        // if(update_user){
+        if(update_user){
   /**/
-            await ctx.reply(`Succesful Payment! \n \n 
+            ctx.reply(`Succesful Payment! \n \n 
                                 My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')} \n\n 
                                 This link only works once. If you leave the channel, you will have to contact our support.`, {
                 reply_markup: {
@@ -192,7 +192,7 @@ bot.on("successful_payment", async ctx=>{
             await payment_data.save()
             await unbanUser(ctx)
 
-        
+        }
 
     } catch (error) {
         console.log(error)
