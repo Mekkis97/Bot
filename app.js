@@ -119,7 +119,7 @@ bot.command("buy_plan", async ctx=>{
         description: db_setup.pack_desc,
         payload: 16,
         provider_token: stripe_key,
-        currency: "SEK",
+        currency: "EUR",
         prices: [
             {
                 label: "Normal",
