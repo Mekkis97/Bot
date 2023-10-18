@@ -55,7 +55,7 @@ bot.command("plan_status", async ctx=>{
         let user = await user_model.find({user_id: ctx.from.id})
             user = user[0]
         if(user.expire > moment()){
-            await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')}`, {
+            await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY hh:mm:ss')}`, {
                 reply_markup: {
                     inline_keyboard: [
                         [{text: "Join telegram channel", url: `${user.join_url}`}]
