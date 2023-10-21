@@ -59,8 +59,8 @@ bot.command("plan_status", async ctx=>{
             await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY hh:mm:ss')}`, {
                 reply_markup: {
                     inline_keyboard: [
-                        [{text: "Join the U2.5 channel", url: `${user.join_url}`}]
-                       ,[{text: "Join the E-sports channel", url: `${user.join_url2}`}]
+                         [{text: "Join the U2.5 channel", url: `${user.join_url}`}]
+                    //    ,[{text: "Join the E-sports channel", url: `${user.join_url2}`}]
                     ]
                 }
             })
@@ -92,25 +92,6 @@ bot.command("about", async ctx=>{
     }
 })
 
-// bot.action("buy_plan", async ctx=>{
-//     await ctx.deleteMessage()
-//     let db_setup = await setup_model.find()
-//         db_setup = db_setup[0]    
-//     ctx.sendInvoice({
-//         title: db_setup.pack_title,
-//         description: db_setup.pack_desc,
-//         payload: 16,
-//         provider_token: stripe_key,
-//         currency: "EUR",
-//         prices: [
-//             {
-//                 label: "Normal",
-//                 amount: db_setup.pack_price * 100
-//             }
-//         ],
-//         photo_url: 'https://i.imgur.com/jvaP9cT.png'
-//     })
-// })
 
 bot.command("buy_plan", async ctx=>{
     await ctx.deleteMessage()
@@ -161,7 +142,7 @@ bot.on("successful_payment", async ctx=>{
             status : true,
             notification : gen_notification(),
             join_url: url.link
-           ,join_url2: url.link2
+        //    ,join_url2: url.link2
         }
 
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
