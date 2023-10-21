@@ -11,6 +11,7 @@ const gen_expire_date = require("./lib/expire_date")
 const payment_model = require("./model/paymentModel")
 const insertUser = require("./lib/createUser")
 const autoKickUser = require("./lib/kickUser")
+const autoKickUser2 = require("./lib/kickUser2")
 const chat_model = require("./model/chatModel")
 const unbanUser = require("./lib/unban")
 const gen_notification = require("./lib/generate_notification")
@@ -245,6 +246,11 @@ bot.on('new_chat_members', async ctx=>{
 setInterval(async () => {
     await autoKickUser()
 }, 1000 * 60 * 2)
+
+setInterval(async () => {
+    await autoKickUser2()
+}, 1000 * 60 * 2)
+
 
 setInterval(async ()=>{
     await notification()
