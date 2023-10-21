@@ -58,8 +58,8 @@ bot.command("plan_status", async ctx=>{
             await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY hh:mm:ss')}`, {
                 reply_markup: {
                     inline_keyboard: [
-                        [{text: "Join the U2.5 channel", url: `${user.join_url}`}],
-                        [{text: "Join the E-sports channel", url: `${user.join_url2}`}]
+                        [{text: "Join the U2.5 channel", url: `${user.join_url}`}]
+                        // ,[{text: "Join the E-sports channel", url: `${user.join_url2}`}]
                     ]
                 }
             })
@@ -134,6 +134,8 @@ bot.command("buy_plan", async ctx=>{
 bot.on("pre_checkout_query", async ctx=>{
     try {
         ctx.answerPreCheckoutQuery(true)
+        console.log(ctx.answerPreCheckoutQuery(true))
+
     } catch (error) {
         console.log(error)
     }
@@ -142,7 +144,7 @@ bot.on("pre_checkout_query", async ctx=>{
 bot.on("successful_payment", async ctx=>{
     try {
         await ctx.deleteMessage()
-
+        
         const pay = ctx.update.message.successful_payment
 
         let db_user = await user_model.find({user_id: ctx.from.id})
@@ -158,8 +160,8 @@ bot.on("successful_payment", async ctx=>{
             expire : expire,
             status : true,
             notification : gen_notification(),
-            join_url: url.link,
-            join_url2: url.link2
+            join_url: url,
+            join_url2: url
         }
 
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
