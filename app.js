@@ -58,7 +58,8 @@ bot.command("plan_status", async ctx=>{
             await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY hh:mm:ss')}`, {
                 reply_markup: {
                     inline_keyboard: [
-                        [{text: "Join telegram channel", url: `${user.join_url}`}]
+                        [{text: "Join the U2.5 channel", url: `${user.join_url}`}],
+                        [{text: "Join the E-sports channel", url: `${user.join_url2}`}]
                     ]
                 }
             })
@@ -157,7 +158,8 @@ bot.on("successful_payment", async ctx=>{
             expire : expire,
             status : true,
             notification : gen_notification(),
-            join_url: url
+            join_url: url.link,
+            join_url2: url.link2
         }
 
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)

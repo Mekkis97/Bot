@@ -15,7 +15,8 @@ const user = new mongoose.Schema({
         default: true
     },
     notification: Date,
-    join_url: String
+    join_url: String,
+    join_url2: String
 },
 {
     timestamps: true,
