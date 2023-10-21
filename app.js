@@ -19,7 +19,7 @@ const export_payment = require("./lib/export_payment_data")
 const export_user = require("./lib/export_user_data")
 const notification_scene = require("./scene/notifyScene")
 const createChatInviteURL = require("./lib/createChatInviteURL")
-// const createChatInviteURL = require("./lib/createChatInviteURL2")
+const createChatInviteURL = require("./lib/createChatInviteURL2")
 
 
 const bot = new Telegraf(bot_token)
