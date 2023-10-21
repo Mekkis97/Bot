@@ -48,6 +48,32 @@ bot.action("home", async ctx=>{
 const stage = new Scenes.Stage([setup_scene, notification_scene])
 bot.use(stage.middleware())
 
+
+
+
+
+bot.command("plan_status", async ctx=>{
+    try {
+        let chat_username = await chat_model.find()
+            chat_username = chat_username[0].group_username
+        let user = await user_model.find({user_id: ctx.from.id})
+            user = user[0]
+        if(user.expire > moment()){
+            await ctx.reply(`Your plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY h:m:s')}`, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [{text: "Join telegram channel", url: `${user.join_url}`}]
+                    ]
+                }
+            })
+        }else{
+            await ctx.reply(`You're not subscribed. \n \n Type /start to buy a plan`)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 bot.command("plan_status", async ctx=>{
     try {
         let chat_username = await chat_model.find()
@@ -131,12 +157,10 @@ bot.command("buy_plan", async ctx=>{
     })
 })
 
+
 bot.on("pre_checkout_query", async ctx=>{
     try {
         ctx.answerPreCheckoutQuery(true)
-        // const poop =  ctx.answerPreCheckoutQuery(true)
-        console.log(poop)
-
     } catch (error) {
         console.log(error)
     }
