@@ -134,7 +134,7 @@ bot.command("buy_plan", async ctx=>{
 bot.on("pre_checkout_query", async ctx=>{
     try {
         ctx.answerPreCheckoutQuery(true)
-        const poop =  ctx.answerPreCheckoutQuery(true)
+        // const poop =  ctx.answerPreCheckoutQuery(true)
         console.log(poop)
 
     } catch (error) {
