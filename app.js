@@ -162,7 +162,7 @@ bot.on("successful_payment", async ctx=>{
             status : true,
             notification : gen_notification(),
             join_url: url,
-            join_url2: url
+            // join_url2: url
         }
 
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
