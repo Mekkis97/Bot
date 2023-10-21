@@ -4,7 +4,7 @@ const stripe_key = '350862534:LIVE:ZTJmOGQzNzc1Mjkx'
 // const telegram_group =  'https://t.me/+0uJUYPb8YZBhNzRk' //'https://t.me/neondragon_ai'
 
 const subscription_day = 31
-const notification_day = 1
+const notification_day = 3
 
 const password = 123321
 
