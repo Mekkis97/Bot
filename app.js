@@ -19,6 +19,7 @@ const export_payment = require("./lib/export_payment_data")
 const export_user = require("./lib/export_user_data")
 const notification_scene = require("./scene/notifyScene")
 const createChatInviteURL = require("./lib/createChatInviteURL")
+const createChatInviteURL = require("./lib/createChatInviteURL2")
 
 
 const bot = new Telegraf(bot_token)
@@ -132,6 +133,7 @@ bot.on("successful_payment", async ctx=>{
             db_user = db_user[0]
 
         const url = await createChatInviteURL(ctx)
+        const url2 = await createChatInviteURL2(ctx)
 
         const expire = gen_expire_date(db_user.expire)
         console.log(expire)
@@ -141,8 +143,8 @@ bot.on("successful_payment", async ctx=>{
             expire : expire,
             status : true,
             notification : gen_notification(),
-            join_url: url.link
-        //    ,join_url2: url.link2
+            join_url: url
+           ,join_url2: url2
         }
 
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
