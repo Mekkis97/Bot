@@ -11,7 +11,6 @@ const gen_expire_date = require("./lib/expire_date")
 const payment_model = require("./model/paymentModel")
 const insertUser = require("./lib/createUser")
 const autoKickUser = require("./lib/kickUser")
-const autoKickUser2 = require("./lib/kickUser2")
 const chat_model = require("./model/chatModel")
 const unbanUser = require("./lib/unban")
 const gen_notification = require("./lib/generate_notification")
@@ -20,7 +19,6 @@ const export_payment = require("./lib/export_payment_data")
 const export_user = require("./lib/export_user_data")
 const notification_scene = require("./scene/notifyScene")
 const createChatInviteURL = require("./lib/createChatInviteURL")
-const createChatInviteURL2 = require("./lib/createChatInviteURL2")
 
 
 const bot = new Telegraf(bot_token)
@@ -58,7 +56,7 @@ bot.command("plan_status", async ctx=>{
         let user = await user_model.find({user_id: ctx.from.id})
             user = user[0]
         if(user.expire > moment()){
-            await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('MM-DD-YYYY hh:mm:ss')}`, {
+            await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('YYYY-MM-DD')}`, {
                 reply_markup: {
                     inline_keyboard: [
                          [{text: "Join the U2.5 channel", url: `${user.join_url}`}]
@@ -134,7 +132,6 @@ bot.on("successful_payment", async ctx=>{
             db_user = db_user[0]
 
         const url = await createChatInviteURL(ctx)
-        const url2 = await createChatInviteURL2(ctx)
 
         const expire = gen_expire_date(db_user.expire)
         console.log(expire)
@@ -245,10 +242,6 @@ bot.on('new_chat_members', async ctx=>{
 
 setInterval(async () => {
     await autoKickUser()
-}, 1000 * 60 * 2)
-
-setInterval(async () => {
-    await autoKickUser2()
 }, 1000 * 60 * 2)
 
 
