@@ -10,16 +10,18 @@ const test_data = require("./lib/testData")
 const gen_expire_date = require("./lib/expire_date")
 const payment_model = require("./model/paymentModel")
 const insertUser = require("./lib/createUser")
-const autoKickUser = require("./lib/kickUser")
 const chat_model = require("./model/chatModel")
-const unbanUser = require("./lib/unban")
 const gen_notification = require("./lib/generate_notification")
 const notification = require("./lib/notification")
 const export_payment = require("./lib/export_payment_data")
 const export_user = require("./lib/export_user_data")
 const notification_scene = require("./scene/notifyScene")
 const createChatInviteURL = require("./lib/createChatInviteURL")
-
+const createChatInviteURL2 = require("./lib/createChatInviteURL2")
+const autoKickUser = require("./lib/kickUser")
+const autoKickUser2 = require("./lib/kickUser2")
+const unbanUser = require("./lib/unban")
+const unbanUser2 = require("./lib/unban2")
 
 const bot = new Telegraf(bot_token)
 
@@ -132,6 +134,7 @@ bot.on("successful_payment", async ctx=>{
             db_user = db_user[0]
 
         const url = await createChatInviteURL(ctx)
+        const url2 = await createChatInviteURL2(ctx)
 
         const expire = gen_expire_date(db_user.expire)
         console.log(expire)
@@ -176,6 +179,7 @@ bot.on("successful_payment", async ctx=>{
             })
             await payment_data.save()
             await unbanUser(ctx)
+            await unbanUser2(ctx)
 
         }
 
@@ -244,6 +248,9 @@ setInterval(async () => {
     await autoKickUser()
 }, 1000 * 60 * 2)
 
+setInterval(async () => {
+    await autoKickUser2()
+}, 1000 * 60 * 2)
 
 setInterval(async ()=>{
     await notification()
