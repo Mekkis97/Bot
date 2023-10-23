@@ -111,7 +111,7 @@ bot.command("buy_plan", async ctx=>{
                 amount: db_setup.pack_price * 100
             }
         ],
-        photo_url: 'https://i.imgur.com/jvaP9cT.png'
+        photo_url: 'https://i.imgur.com/L8KDwhz.png'
     })
 })
 
