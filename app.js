@@ -16,12 +16,18 @@ const notification = require("./lib/notification")
 const export_payment = require("./lib/export_payment_data")
 const export_user = require("./lib/export_user_data")
 const notification_scene = require("./scene/notifyScene")
+
 const createChatInviteURL = require("./lib/createChatInviteURL")
 const createChatInviteURL2 = require("./lib/createChatInviteURL2")
+const createChatInviteURL3 = require("./lib/createChatInviteURL3")
+
 const autoKickUser = require("./lib/kickUser")
 const autoKickUser2 = require("./lib/kickUser2")
+const autoKickUser3 = require("./lib/kickUser3")
+
 const unbanUser = require("./lib/unban")
 const unbanUser2 = require("./lib/unban2")
+const unbanUser3 = require("./lib/unban3")
 
 const bot = new Telegraf(bot_token)
 
@@ -61,8 +67,10 @@ bot.command("plan_status", async ctx=>{
             await ctx.reply(`My plan: \nStatus: Active\nExpire: ${moment(user.expire).format('YYYY-MM-DD')}`, {
                 reply_markup: {
                     inline_keyboard: [
-                         [{text: "Join the U2.5 channel", url: `${user.join_url}`}]
+                        [{text: "Join the U2.5 channel", url: `${user.join_url}`}]
                        ,[{text: "Join the E-sports channel", url: `${user.join_url2}`}]
+                       ,[{text: "Join the E-sports channel", url: `${user.join_url3}`}]
+
                     ]
                 }
             })
@@ -135,6 +143,7 @@ bot.on("successful_payment", async ctx=>{
 
         const url = await createChatInviteURL(ctx)
         const url2 = await createChatInviteURL2(ctx)
+        const url3 = await createChatInviteURL3(ctx)
 
         const expire = gen_expire_date(db_user.expire)
         console.log(expire)
@@ -146,6 +155,8 @@ bot.on("successful_payment", async ctx=>{
             notification : gen_notification(),
             join_url: url
            ,join_url2: url2
+           ,join_url3: url3
+
         }
 
         const update_user = await user_model.findByIdAndUpdate(db_user.id , user_data)
@@ -180,6 +191,7 @@ bot.on("successful_payment", async ctx=>{
             await payment_data.save()
             await unbanUser(ctx)
             await unbanUser2(ctx)
+            await unbanUser3(ctx)
 
         }
 
@@ -250,6 +262,10 @@ setInterval(async () => {
 
 setInterval(async () => {
     await autoKickUser2()
+}, 1000 * 60 * 2)
+
+setInterval(async () => {
+    await autoKickUser3()
 }, 1000 * 60 * 2)
 
 setInterval(async ()=>{
